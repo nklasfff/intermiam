@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Sitecover — Projektdynamik</title>
+    <title>Sitecover — Tensegrity Designsystem</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -13,8 +13,8 @@
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: #0e0e0e;
-            color: #f0ece6;
+            background: #ffffff;
+            color: #1a1a1a;
             display: flex;
             justify-content: center;
             -webkit-font-smoothing: antialiased;
@@ -24,14 +24,16 @@
             width: 100%;
             max-width: 420px;
             min-height: 100vh;
-            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+            background: #ffffff;
             overflow-x: hidden;
+            position: relative;
+            z-index: 1;
         }
 
         /* Header */
         .header {
             position: relative;
-            padding: 48px 28px 40px;
+            padding: 52px 28px 44px;
             text-align: center;
             overflow: hidden;
         }
@@ -39,17 +41,17 @@
         .header::before {
             content: '';
             position: absolute;
-            top: -60%;
-            left: -30%;
-            width: 160%;
-            height: 200%;
-            background: radial-gradient(ellipse at center, rgba(232,93,26,0.15) 0%, transparent 65%);
+            top: -40%;
+            left: -20%;
+            width: 140%;
+            height: 180%;
+            background: radial-gradient(ellipse at center, rgba(232,93,26,0.06) 0%, transparent 65%);
             pointer-events: none;
         }
 
         .header .logo-text {
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 700;
             color: #e85d1a;
             letter-spacing: 5px;
             text-transform: uppercase;
@@ -58,33 +60,61 @@
         }
 
         .header h1 {
-            font-size: 32px;
-            font-weight: 800;
-            color: #fff;
-            line-height: 1.15;
+            font-size: 34px;
+            font-weight: 900;
+            color: #111;
+            line-height: 1.12;
             letter-spacing: -0.5px;
             position: relative;
         }
 
-        .header h1 span {
-            color: #e85d1a;
-        }
+        .header h1 span { color: #e85d1a; }
 
         .header .subtitle {
             font-size: 14px;
-            color: rgba(240,236,230,0.5);
+            color: #777;
             margin-top: 14px;
-            line-height: 1.6;
+            line-height: 1.65;
             font-weight: 400;
             position: relative;
         }
 
         .header-line {
             width: 40px;
-            height: 2px;
+            height: 3px;
             background: #e85d1a;
-            margin: 20px auto 0;
+            margin: 22px auto 0;
+            border-radius: 2px;
             position: relative;
+        }
+
+        /* Tensegrity Canvas */
+        .tensegrity-wrapper {
+            position: relative;
+            margin: 0 20px 8px;
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 20px;
+            padding: 12px;
+        }
+
+        .tensegrity-wrapper canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 14px;
+            cursor: grab;
+            touch-action: none;
+        }
+
+        .tensegrity-wrapper canvas:active { cursor: grabbing; }
+
+        .tensegrity-hint {
+            text-align: center;
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 8px;
+            font-style: italic;
         }
 
         /* Sections */
@@ -92,8 +122,8 @@
             padding: 48px 28px;
             position: relative;
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
         }
 
         .section.visible {
@@ -103,114 +133,131 @@
 
         .section-number {
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             color: #e85d1a;
             letter-spacing: 3px;
             text-transform: uppercase;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         h2 {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
-            color: #fff;
-            line-height: 1.15;
-            margin-bottom: 16px;
+            color: #111;
+            line-height: 1.18;
+            margin-bottom: 14px;
             letter-spacing: -0.3px;
         }
 
         .body-text {
             font-size: 14.5px;
             line-height: 1.7;
-            color: rgba(240,236,230,0.55);
-            margin-bottom: 32px;
+            color: #666;
+            margin-bottom: 0;
             font-weight: 400;
         }
 
-        /* Interactive diagram */
-        .diagram-wrapper {
-            position: relative;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 12px;
-            backdrop-filter: blur(10px);
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 24px;
         }
 
-        .diagram-wrapper canvas {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 12px;
-            cursor: grab;
-            touch-action: none;
-        }
-
-        .diagram-wrapper canvas:active {
-            cursor: grabbing;
-        }
-
-        .diagram-controls {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 12px;
-        }
-
-        .diagram-controls button {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.6);
-            font-family: 'Inter', sans-serif;
-            font-size: 11px;
-            font-weight: 500;
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
+        .card {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 14px;
+            padding: 18px 16px;
             transition: all 0.3s ease;
-            letter-spacing: 0.3px;
         }
 
-        .diagram-controls button:hover,
-        .diagram-controls button.active {
-            background: rgba(232,93,26,0.15);
-            border-color: rgba(232,93,26,0.4);
-            color: #e85d1a;
+        .card:hover {
+            border-color: #e85d1a;
+            box-shadow: 0 4px 20px rgba(232,93,26,0.08);
+            transform: translateY(-2px);
         }
 
-        .diagram-caption {
-            text-align: center;
+        .card .card-icon {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 6px;
+        }
+
+        .card p {
             font-size: 12px;
-            color: rgba(240,236,230,0.35);
-            font-style: italic;
-            padding: 4px 20px 0;
+            line-height: 1.55;
+            color: #888;
+        }
+
+        /* Stat row */
+        .stat-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 14px;
+            padding: 18px 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            border-color: rgba(232,93,26,0.3);
+        }
+
+        .stat-box .stat-value {
+            font-size: 28px;
+            font-weight: 900;
+            color: #e85d1a;
+            line-height: 1;
+        }
+
+        .stat-box .stat-label {
+            font-size: 11px;
+            color: #999;
+            margin-top: 6px;
+            font-weight: 500;
         }
 
         /* Bullet list */
         .bullet-list {
             list-style: none;
-            margin-top: 28px;
+            margin-top: 24px;
         }
 
         .bullet-list li {
             display: flex;
             align-items: flex-start;
             gap: 14px;
-            margin-bottom: 18px;
+            margin-bottom: 12px;
             font-size: 13.5px;
             line-height: 1.6;
-            color: rgba(240,236,230,0.5);
+            color: #666;
             padding: 14px 16px;
-            background: rgba(255,255,255,0.02);
+            background: #fafafa;
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.04);
+            border: 1px solid #eee;
             transition: all 0.3s ease;
         }
 
         .bullet-list li:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.08);
+            border-color: rgba(232,93,26,0.25);
+            background: #fff;
         }
 
         .bullet-dot {
@@ -219,37 +266,78 @@
             border-radius: 50%;
             flex-shrink: 0;
             margin-top: 6px;
-            box-shadow: 0 0 8px currentColor;
         }
 
-        .bullet-list li strong {
-            color: rgba(255,255,255,0.85);
+        .bullet-list li strong { color: #222; }
+
+        /* Timeline */
+        .timeline {
+            margin-top: 24px;
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #e85d1a, #f4a574, #eee);
+            border-radius: 1px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding: 14px 16px;
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            border-color: rgba(232,93,26,0.3);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 18px;
+            width: 10px;
+            height: 10px;
+            background: #e85d1a;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .timeline-item h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 4px;
+        }
+
+        .timeline-item p {
+            font-size: 12.5px;
+            color: #888;
+            line-height: 1.55;
         }
 
         /* Dividers */
         .section-divider {
             width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(232,93,26,0.3), transparent);
-            margin: 0;
+            background: linear-gradient(90deg, transparent, rgba(232,93,26,0.2), transparent);
         }
 
         /* Footer */
         .footer {
-            padding: 48px 28px 40px;
+            padding: 48px 28px 44px;
             text-align: center;
-            position: relative;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: -20%;
-            width: 140%;
-            height: 300px;
-            background: radial-gradient(ellipse at center bottom, rgba(232,93,26,0.08) 0%, transparent 70%);
-            pointer-events: none;
         }
 
         .footer .cta-btn {
@@ -257,63 +345,33 @@
             background: #e85d1a;
             color: #fff;
             text-decoration: none;
-            padding: 16px 40px;
+            padding: 16px 42px;
             border-radius: 50px;
             font-weight: 700;
             font-size: 15px;
-            letter-spacing: 0.5px;
-            position: relative;
+            letter-spacing: 0.3px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 24px rgba(232,93,26,0.3);
+            box-shadow: 0 4px 20px rgba(232,93,26,0.25);
         }
 
         .footer .cta-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(232,93,26,0.45);
+            box-shadow: 0 8px 30px rgba(232,93,26,0.35);
         }
 
         .footer p {
-            color: rgba(240,236,230,0.3);
+            color: #aaa;
             font-size: 12px;
             line-height: 1.6;
-            margin-top: 20px;
-            position: relative;
+            margin-top: 18px;
         }
-
-        /* Floating particles */
-        .particles {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(232,93,26,0.3);
-            border-radius: 50%;
-            animation: float linear infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
-        }
-
-        .page { position: relative; z-index: 1; }
 
         /* Tooltip */
         .tooltip {
             position: fixed;
-            background: rgba(20,20,20,0.95);
-            border: 1px solid rgba(232,93,26,0.3);
-            color: #fff;
+            background: rgba(255,255,255,0.97);
+            border: 1px solid rgba(232,93,26,0.25);
+            color: #333;
             padding: 10px 14px;
             border-radius: 10px;
             font-size: 12px;
@@ -323,7 +381,7 @@
             opacity: 0;
             transition: opacity 0.2s ease;
             z-index: 100;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
         }
 
         .tooltip.show { opacity: 1; }
@@ -332,10 +390,6 @@
 </head>
 <body>
 
-<!-- Floating particles -->
-<div class="particles" id="particles"></div>
-
-<!-- Tooltip -->
 <div class="tooltip" id="tooltip"></div>
 
 <div class="page">
@@ -343,73 +397,82 @@
     <!-- Header -->
     <div class="header">
         <div class="logo-text">Sitecover</div>
-        <h1>Projektets <span>dynamik</span></h1>
-        <p class="subtitle">Hvordan vejrbeskyttelse påvirker hele byggepladsens balance, risiko og økonomi.</p>
+        <h1>Projektets <span>tensegrity</span></h1>
+        <p class="subtitle">Forstå hvordan vejrbeskyttelse skaber balance, styrke og sammenhæng i hele byggeprocessen.</p>
         <div class="header-line"></div>
     </div>
 
-    <div class="section-divider"></div>
-
-    <!-- SEKTION 1 -->
-    <div class="section" data-section="1">
-        <div class="section-number">01 — Balance</div>
-        <h2>Når alt er i balance</h2>
-        <p class="body-text">
-            En byggeplads fungerer bedst, når alle dele arbejder sammen. Med Sitecover er vejrbeskyttelse og krankapacitet integreret fra dag ét — og resten af projektet kan køre stabilt, sikkert og til tiden.
-        </p>
-        <div class="diagram-wrapper">
-            <canvas id="diagram1" width="700" height="700"></canvas>
-            <div class="diagram-controls">
-                <button onclick="toggleSpin(0)" class="active">Roter</button>
-                <button onclick="togglePulse(0)">Puls</button>
-                <button onclick="resetDiagram(0)">Nulstil</button>
-            </div>
-        </div>
-        <p class="diagram-caption">Systemet i balance — alle områder støtter hinanden</p>
+    <!-- Tensegrity Canvas -->
+    <div class="tensegrity-wrapper">
+        <canvas id="tensegrity" width="700" height="700"></canvas>
+        <p class="tensegrity-hint">Træk i noderne — se hvordan systemet reagerer</p>
     </div>
 
     <div class="section-divider"></div>
 
-    <!-- SEKTION 2 -->
-    <div class="section" data-section="2">
-        <div class="section-number">02 — Under pres</div>
-        <h2>Når systemet er under pres</h2>
+    <!-- SEKTION 1: Balance -->
+    <div class="section" data-section="1">
+        <div class="section-number">01 — Tensegrity</div>
+        <h2>Hvad er tensegrity?</h2>
         <p class="body-text">
-            Uden tilstrækkelig vejrbeskyttelse begynder hele byggepladsen at miste sin rytme. Nedbør stopper arbejdet, vind forsinker kranløft, og materialerne lider.
+            Tensegrity er et system hvor isolerede elementer holdes sammen af et netværk af spænding. Fjern én tråd — og hele strukturen ændrer form. Præcis som et byggeprojekt.
         </p>
-        <div class="diagram-wrapper">
-            <canvas id="diagram2" width="700" height="700"></canvas>
-            <div class="diagram-controls">
-                <button onclick="toggleSpin(1)">Roter</button>
-                <button onclick="togglePulse(1)" class="active">Puls</button>
-                <button onclick="resetDiagram(1)">Nulstil</button>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-icon" style="background: #e85d1a;"></div>
+                <h3>Spænding</h3>
+                <p>Kabler og forbindelser holder systemet samlet under pres.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: #3d8b6e;"></div>
+                <h3>Kompression</h3>
+                <p>Stive elementer modstår og fordeler belastningen.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: #5a7fa5;"></div>
+                <h3>Balance</h3>
+                <p>Kun når begge kræfter er i ligevægt, er strukturen stabil.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: #7b6b99;"></div>
+                <h3>Resiliens</h3>
+                <p>Systemet absorberer stød og vender tilbage til form.</p>
             </div>
         </div>
-        <p class="diagram-caption">Systemet under pres — symmetrien er brudt</p>
+    </div>
 
+    <div class="section-divider"></div>
+
+    <!-- SEKTION 2: Risikozoner -->
+    <div class="section" data-section="2">
+        <div class="section-number">02 — Risikozoner</div>
+        <h2>Når systemet er under pres</h2>
+        <p class="body-text">
+            Uden vejrbeskyttelse mister byggepladsen sin rytme. Hvert uløst problem spreder sig — som en brudt tråd i et tensegrity-netværk.
+        </p>
         <ul class="bullet-list">
             <li>
-                <span class="bullet-dot" style="background:#e8a88a; color:#e8a88a"></span>
+                <span class="bullet-dot" style="background: #e85d1a;"></span>
                 <span><strong>Vejrbeskyttelse:</strong> Manglende overdækning stopper arbejdet ved regn og blæst.</span>
             </li>
             <li>
-                <span class="bullet-dot" style="background:#c2790a; color:#c2790a"></span>
+                <span class="bullet-dot" style="background: #c2790a;"></span>
                 <span><strong>Krankapacitet:</strong> Vindrestriktioner reducerer antal løftedage markant.</span>
             </li>
             <li>
-                <span class="bullet-dot" style="background:#24724f; color:#24724f"></span>
+                <span class="bullet-dot" style="background: #3d8b6e;"></span>
                 <span><strong>Tidsplan:</strong> Vejrlig forsinkelser akkumuleres dag for dag.</span>
             </li>
             <li>
-                <span class="bullet-dot" style="background:#5a7fa5; color:#5a7fa5"></span>
+                <span class="bullet-dot" style="background: #5a7fa5;"></span>
                 <span><strong>Materialer:</strong> Fugt og nedbør skader materialer der ligger udækket.</span>
             </li>
             <li>
-                <span class="bullet-dot" style="background:#7b6b99; color:#7b6b99"></span>
+                <span class="bullet-dot" style="background: #7b6b99;"></span>
                 <span><strong>Sikkerhed:</strong> Våde overflader og blæst øger ulykkesrisikoen.</span>
             </li>
             <li>
-                <span class="bullet-dot" style="background:#2e6e80; color:#2e6e80"></span>
+                <span class="bullet-dot" style="background: #4a8a9e;"></span>
                 <span><strong>Økonomi:</strong> Forsinkelser og stilstand rammer budgettet direkte.</span>
             </li>
         </ul>
@@ -417,23 +480,109 @@
 
     <div class="section-divider"></div>
 
-    <!-- SEKTION 3 -->
+    <!-- SEKTION 3: Tal -->
     <div class="section" data-section="3">
-        <div class="section-number">03 — Dominans</div>
-        <h2>Når ét område dominerer</h2>
+        <div class="section-number">03 — Effekt</div>
+        <h2>Dokumenteret forskel</h2>
         <p class="body-text">
-            Uden handling tager forsinkelserne over. Ét problem vokser sig så stort, at det trækker alle andre områder med sig — og hele projektet mister retning.
+            Sitecovers integrerede løsninger leverer målbare resultater på tværs af hele projektets livscyklus.
         </p>
-        <div class="diagram-wrapper">
-            <canvas id="diagram3" width="700" height="700"></canvas>
-            <div class="diagram-controls">
-                <button onclick="toggleSpin(2)">Roter</button>
-                <button onclick="togglePulse(2)" class="active">Puls</button>
-                <button onclick="explodeDiagram(2)">Eksplosion</button>
-                <button onclick="resetDiagram(2)">Nulstil</button>
+        <div class="stat-row">
+            <div class="stat-box">
+                <div class="stat-value">30%</div>
+                <div class="stat-label">Færre vejrdage tabt</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">2x</div>
+                <div class="stat-label">Mere krankapacitet</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">45%</div>
+                <div class="stat-label">Mindre materialespild</div>
             </div>
         </div>
-        <p class="diagram-caption">Forsinkelser uden beskyttelse trækker hele projektet ud af balance</p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- SEKTION 4: Proces -->
+    <div class="section" data-section="4">
+        <div class="section-number">04 — Proces</div>
+        <h2>Fra plan til beskyttelse</h2>
+        <p class="body-text">
+            Sitecovers proces integrerer vejrbeskyttelse tidligt — så strukturen er klar, når byggeriet starter.
+        </p>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>Analyse</h3>
+                <p>Vi kortlægger byggepladsens unikke vindprofil, kranforhold og risikozoner.</p>
+            </div>
+            <div class="timeline-item">
+                <h3>Design</h3>
+                <p>Tilpasset overdækning designes så det samarbejder med kranens arbejdsradius.</p>
+            </div>
+            <div class="timeline-item">
+                <h3>Installation</h3>
+                <p>Systemet monteres med minimal påvirkning af den igangværende byggeproces.</p>
+            </div>
+            <div class="timeline-item">
+                <h3>Drift</h3>
+                <p>Kontinuerlig overvågning og tilpasning gennem hele byggeperioden.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- SEKTION 5: Dominans -->
+    <div class="section" data-section="5">
+        <div class="section-number">05 — Dominans</div>
+        <h2>Når ét problem tager over</h2>
+        <p class="body-text">
+            I et tensegrity-system kan ét svagt punkt forvrænge hele strukturen. Det samme sker på en byggeplads: én ubeskyttet zone kan forsinke alt.
+        </p>
+        <div class="card-grid">
+            <div class="card" style="grid-column: 1 / -1;">
+                <div class="card-icon" style="background: #e85d1a;"></div>
+                <h3>Kaskade-effekten</h3>
+                <p>Forsinkelser i ét område spreder sig eksponentielt. En enkelt regndag kan koste uger, når følgeeffekterne rammer tidsplan, materialer og underentreprenører.</p>
+            </div>
+        </div>
+        <div class="stat-row" style="margin-top: 14px;">
+            <div class="stat-box">
+                <div class="stat-value">1→7</div>
+                <div class="stat-label">En dags forsinkelse kan blive til syv</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">85%</div>
+                <div class="stat-label">Af forsinkelser er vejrrelaterede</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- SEKTION 6: Løsning -->
+    <div class="section" data-section="6">
+        <div class="section-number">06 — Løsningen</div>
+        <h2>Sitecover genopretter balancen</h2>
+        <p class="body-text">
+            Ligesom tensegrity genopbygger form efter påvirkning, genopretter Sitecover byggepladsens stabilitet — uanset vejret.
+        </p>
+        <ul class="bullet-list">
+            <li>
+                <span class="bullet-dot" style="background: #e85d1a;"></span>
+                <span><strong>Integreret system:</strong> Vejrbeskyttelse og kran arbejder sammen, ikke imod hinanden.</span>
+            </li>
+            <li>
+                <span class="bullet-dot" style="background: #3d8b6e;"></span>
+                <span><strong>Forudsigelig drift:</strong> Eliminér vejret som variabel i din tidsplan.</span>
+            </li>
+            <li>
+                <span class="bullet-dot" style="background: #5a7fa5;"></span>
+                <span><strong>Dokumenteret ROI:</strong> Investeringen tjener sig selv ind gennem færre forsinkelser.</span>
+            </li>
+        </ul>
     </div>
 
     <div class="section-divider"></div>
@@ -447,423 +596,343 @@
 </div>
 
 <script>
-// ==================== PARTICLES ====================
-(function() {
-    const container = document.getElementById('particles');
-    for (let i = 0; i < 20; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        p.style.left = Math.random() * 100 + '%';
-        p.style.animationDuration = (8 + Math.random() * 15) + 's';
-        p.style.animationDelay = (Math.random() * 10) + 's';
-        p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
-        container.appendChild(p);
-    }
-})();
-
 // ==================== SCROLL REVEAL ====================
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
         if (e.isIntersecting) e.target.classList.add('visible');
     });
-}, { threshold: 0.15 });
+}, { threshold: 0.12 });
 document.querySelectorAll('.section').forEach(s => observer.observe(s));
 
-// ==================== DIAGRAM ENGINE ====================
-const LABELS = ['Vejr-\nbeskyttelse', 'Kran-\nkapacitet', 'Tidsplan', 'Materialer', 'Sikkerhed', 'Økonomi'];
-const COLORS = ['#d4520f', '#c2790a', '#3d8b6e', '#5a7fa5', '#7b6b99', '#4a8a9e'];
-const CENTER_COLOR = '#e85d1a';
-
-const TOOLTIPS = [
-    'Vejrbeskyttelse sikrer uafbrudt arbejde uanset vejrforhold.',
-    'Krankapacitet optimeres med integreret overdækning.',
-    'Tidsplanen holdes stabil med forudsigelige arbejdsforhold.',
-    'Materialer beskyttes mod fugt, regn og vind.',
-    'Sikkerheden styrkes med tørre, kontrollerede forhold.',
-    'Økonomien stabiliseres når forsinkelser minimeres.'
-];
+// ==================== TENSEGRITY SPRING PHYSICS ====================
+const canvas = document.getElementById('tensegrity');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const CX = W / 2, CY = H / 2;
 
 const tooltip = document.getElementById('tooltip');
 
-// State configurations for 3 diagrams
-const CONFIGS = [
-    // 1: Balanced
-    {
-        centerR: 52, centerX: 0, centerY: 0,
-        satellites: [
-            { angle: -90, dist: 125, r: 36, opacity: 1, colorShift: 0 },
-            { angle: -30, dist: 125, r: 36, opacity: 1, colorShift: 0 },
-            { angle:  30, dist: 125, r: 36, opacity: 1, colorShift: 0 },
-            { angle:  90, dist: 125, r: 36, opacity: 1, colorShift: 0 },
-            { angle: 150, dist: 125, r: 36, opacity: 1, colorShift: 0 },
-            { angle: 210, dist: 125, r: 36, opacity: 1, colorShift: 0 },
-        ]
-    },
-    // 2: Under pressure
-    {
-        centerR: 50, centerX: 10, centerY: 8,
-        satellites: [
-            { angle: -85, dist: 118, r: 22, opacity: 0.5, colorShift: 0.4 },
-            { angle: -25, dist: 130, r: 30, opacity: 0.7, colorShift: 0.1 },
-            { angle:  38, dist: 115, r: 46, opacity: 1,   colorShift: -0.2 },
-            { angle:  95, dist: 135, r: 30, opacity: 0.6, colorShift: 0.15 },
-            { angle: 155, dist: 120, r: 32, opacity: 0.65, colorShift: 0.1 },
-            { angle: 215, dist: 110, r: 44, opacity: 1,   colorShift: -0.2 },
-        ]
-    },
-    // 3: Dominance
-    {
-        centerR: 44, centerX: -12, centerY: 10,
-        satellites: [
-            { angle: -80, dist: 135, r: 16, opacity: 0.3, colorShift: 0.5 },
-            { angle: -20, dist: 110, r: 24, opacity: 0.45, colorShift: 0.3 },
-            { angle:  40, dist: 90,  r: 65, opacity: 1,   colorShift: -0.3, label: 'Forsin-\nkelser' },
-            { angle: 100, dist: 140, r: 20, opacity: 0.35, colorShift: 0.4 },
-            { angle: 160, dist: 145, r: 18, opacity: 0.3, colorShift: 0.45 },
-            { angle: 220, dist: 105, r: 34, opacity: 0.6, colorShift: 0.05 },
-        ]
-    }
+const NODE_LABELS = ['Vejr', 'Kran', 'Tid', 'Materiale', 'Sikkerhed', 'Økonomi'];
+const NODE_COLORS = ['#e85d1a', '#c2790a', '#3d8b6e', '#5a7fa5', '#7b6b99', '#4a8a9e'];
+const NODE_TOOLTIPS = [
+    'Vejrbeskyttelse sikrer uafbrudt arbejde.',
+    'Krankapaciteten optimeres med overdækning.',
+    'Tidsplanen holdes stabil og forudsigelig.',
+    'Materialer beskyttes mod fugt og regn.',
+    'Sikkerheden styrkes med tørre forhold.',
+    'Økonomien stabiliseres uden forsinkelser.'
 ];
 
-class Diagram {
-    constructor(canvasId, configIndex) {
-        this.canvas = document.getElementById(canvasId);
-        this.ctx = this.canvas.getContext('2d');
-        this.config = CONFIGS[configIndex];
-        this.configIndex = configIndex;
-        this.cx = 350;
-        this.cy = 350;
-        this.spinning = configIndex === 0;
-        this.pulsing = configIndex !== 0;
-        this.exploding = false;
-        this.spinAngle = 0;
-        this.pulsePhase = 0;
-        this.explodePhase = 0;
-        this.dragTarget = -1; // -1 = none, -2 = center, 0-5 = satellite
-        this.dragOffsetX = 0;
-        this.dragOffsetY = 0;
-        this.hoveredNode = -1;
-        this.customPositions = null; // for drag overrides
-        this.time = 0;
+const REST_RADIUS = 155;
+const CENTER_RADIUS = 42;
+const NODE_RADIUS = 32;
+const SPRING_K = 0.012;
+const DAMPING = 0.92;
+const REPULSION = 8000;
+const CENTER_SPRING_K = 0.005;
 
-        // Touch/mouse events
-        this.canvas.addEventListener('pointerdown', (e) => this.onPointerDown(e));
-        this.canvas.addEventListener('pointermove', (e) => this.onPointerMove(e));
-        this.canvas.addEventListener('pointerup', () => this.onPointerUp());
-        this.canvas.addEventListener('pointerleave', () => { this.onPointerUp(); this.hoveredNode = -1; tooltip.classList.remove('show'); });
+// Nodes: 0=center, 1-6=satellites
+const nodes = [];
+
+// Center node
+nodes.push({
+    x: CX, y: CY, vx: 0, vy: 0,
+    targetX: CX, targetY: CY,
+    r: CENTER_RADIUS, fixed: false,
+    color: '#e85d1a', label: 'Projekt'
+});
+
+// Satellite nodes
+for (let i = 0; i < 6; i++) {
+    const angle = (i * 60 - 90) * Math.PI / 180;
+    const x = CX + Math.cos(angle) * REST_RADIUS;
+    const y = CY + Math.sin(angle) * REST_RADIUS;
+    nodes.push({
+        x, y, vx: 0, vy: 0,
+        targetX: x, targetY: y,
+        r: NODE_RADIUS, fixed: false,
+        color: NODE_COLORS[i], label: NODE_LABELS[i]
+    });
+}
+
+// Springs: center to each satellite + ring connections + cross-bracing
+const springs = [];
+
+// Center to satellites (tension cables)
+for (let i = 1; i <= 6; i++) {
+    springs.push({ a: 0, b: i, restLength: REST_RADIUS, k: SPRING_K, type: 'tension' });
+}
+
+// Ring connections (compression struts)
+for (let i = 1; i <= 6; i++) {
+    const next = (i % 6) + 1;
+    const angle1 = ((i - 1) * 60 - 90) * Math.PI / 180;
+    const angle2 = ((next - 1) * 60 - 90) * Math.PI / 180;
+    const dx = Math.cos(angle1) * REST_RADIUS - Math.cos(angle2) * REST_RADIUS;
+    const dy = Math.sin(angle1) * REST_RADIUS - Math.sin(angle2) * REST_RADIUS;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    springs.push({ a: i, b: next, restLength: dist, k: SPRING_K * 0.8, type: 'strut' });
+}
+
+// Cross-bracing (every other node)
+for (let i = 1; i <= 6; i++) {
+    const across = ((i + 1) % 6) + 1;
+    const angle1 = ((i - 1) * 60 - 90) * Math.PI / 180;
+    const angle2 = ((across - 1) * 60 - 90) * Math.PI / 180;
+    const dx = Math.cos(angle1) * REST_RADIUS - Math.cos(angle2) * REST_RADIUS;
+    const dy = Math.sin(angle1) * REST_RADIUS - Math.sin(angle2) * REST_RADIUS;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    springs.push({ a: i, b: across, restLength: dist, k: SPRING_K * 0.3, type: 'cross' });
+}
+
+let dragNode = -1;
+let hoverNode = -1;
+let mouseX = 0, mouseY = 0;
+
+function getCanvasPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scale = W / rect.width;
+    return {
+        x: (e.clientX - rect.left) * scale,
+        y: (e.clientY - rect.top) * scale
+    };
+}
+
+function hitTest(px, py) {
+    for (let i = nodes.length - 1; i >= 0; i--) {
+        const n = nodes[i];
+        const dx = px - n.x, dy = py - n.y;
+        if (dx * dx + dy * dy < (n.r + 8) * (n.r + 8)) return i;
+    }
+    return -1;
+}
+
+canvas.addEventListener('pointerdown', (e) => {
+    const p = getCanvasPos(e);
+    const hit = hitTest(p.x, p.y);
+    if (hit >= 0) {
+        dragNode = hit;
+        nodes[hit].fixed = true;
+        canvas.setPointerCapture(e.pointerId);
+    }
+});
+
+canvas.addEventListener('pointermove', (e) => {
+    const p = getCanvasPos(e);
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    if (dragNode >= 0) {
+        nodes[dragNode].x = p.x;
+        nodes[dragNode].y = p.y;
+        nodes[dragNode].vx = 0;
+        nodes[dragNode].vy = 0;
+    } else {
+        const hit = hitTest(p.x, p.y);
+        if (hit > 0 && hit !== hoverNode) {
+            hoverNode = hit;
+            const idx = hit - 1;
+            tooltip.innerHTML = '<strong>' + NODE_LABELS[idx] + '</strong><br>' + NODE_TOOLTIPS[idx];
+            tooltip.classList.add('show');
+        } else if (hit <= 0 && hoverNode > 0) {
+            hoverNode = -1;
+            tooltip.classList.remove('show');
+        }
+        if (hoverNode > 0) {
+            tooltip.style.left = Math.min(mouseX + 14, window.innerWidth - 220) + 'px';
+            tooltip.style.top = (mouseY - 60) + 'px';
+        }
+    }
+});
+
+canvas.addEventListener('pointerup', () => {
+    if (dragNode >= 0) {
+        nodes[dragNode].fixed = false;
+        dragNode = -1;
+    }
+});
+
+canvas.addEventListener('pointerleave', () => {
+    if (dragNode >= 0) {
+        nodes[dragNode].fixed = false;
+        dragNode = -1;
+    }
+    hoverNode = -1;
+    tooltip.classList.remove('show');
+});
+
+function simulate() {
+    // Spring forces
+    for (const sp of springs) {
+        const a = nodes[sp.a], b = nodes[sp.b];
+        const dx = b.x - a.x, dy = b.y - a.y;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const force = (dist - sp.restLength) * sp.k;
+        const fx = (dx / dist) * force;
+        const fy = (dy / dist) * force;
+
+        if (!a.fixed) { a.vx += fx; a.vy += fy; }
+        if (!b.fixed) { b.vx -= fx; b.vy -= fy; }
     }
 
-    getScale() {
-        return this.canvas.clientWidth / this.canvas.width;
-    }
-
-    getNodePositions() {
-        if (this.customPositions) return this.customPositions;
-        const c = this.config;
-        const positions = [];
-        const centerX = this.cx + c.centerX;
-        const centerY = this.cy + c.centerY;
-
-        for (let i = 0; i < 6; i++) {
-            const s = c.satellites[i];
-            const angle = (s.angle + (this.spinning ? this.spinAngle : 0)) * Math.PI / 180;
-            let dist = s.dist;
-            let r = s.r;
-
-            if (this.pulsing) {
-                const pulseOffset = Math.sin(this.pulsePhase + i * 1.05) * 8;
-                dist += pulseOffset;
-                r += Math.sin(this.pulsePhase + i * 0.8) * 2;
+    // Node repulsion
+    for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+            const a = nodes[i], b = nodes[j];
+            const dx = b.x - a.x, dy = b.y - a.y;
+            const distSq = dx * dx + dy * dy || 1;
+            const dist = Math.sqrt(distSq);
+            const minDist = a.r + b.r + 10;
+            if (dist < minDist) {
+                const force = REPULSION / distSq;
+                const fx = (dx / dist) * force;
+                const fy = (dy / dist) * force;
+                if (!a.fixed) { a.vx -= fx; a.vy -= fy; }
+                if (!b.fixed) { b.vx += fx; b.vy += fy; }
             }
-
-            if (this.exploding) {
-                const explodeMult = 1 + Math.sin(this.explodePhase) * 0.6;
-                dist *= explodeMult;
-                r *= 1 + Math.sin(this.explodePhase + i) * 0.15;
-            }
-
-            positions.push({
-                x: centerX + Math.cos(angle) * dist,
-                y: centerY + Math.sin(angle) * dist,
-                r: Math.max(12, r),
-                opacity: s.opacity,
-                colorShift: s.colorShift,
-                label: s.label || null
-            });
         }
-
-        return { center: { x: centerX, y: centerY, r: c.centerR }, satellites: positions };
     }
 
-    shiftColor(hex, amount) {
-        let r = parseInt(hex.slice(1,3), 16);
-        let g = parseInt(hex.slice(3,5), 16);
-        let b = parseInt(hex.slice(5,7), 16);
-        // Lighten (positive amount) or darken (negative)
-        if (amount > 0) {
-            r = Math.min(255, r + Math.round((255 - r) * amount));
-            g = Math.min(255, g + Math.round((255 - g) * amount));
-            b = Math.min(255, b + Math.round((255 - b) * amount));
-        } else {
-            r = Math.max(0, r + Math.round(r * amount));
-            g = Math.max(0, g + Math.round(g * amount));
-            b = Math.max(0, b + Math.round(b * amount));
-        }
-        return `rgb(${r},${g},${b})`;
+    // Gentle pull toward rest position
+    for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        if (n.fixed) continue;
+        n.vx += (n.targetX - n.x) * CENTER_SPRING_K;
+        n.vy += (n.targetY - n.y) * CENTER_SPRING_K;
     }
 
-    draw() {
-        const ctx = this.ctx;
-        const W = this.canvas.width;
-        const H = this.canvas.height;
-        ctx.clearRect(0, 0, W, H);
+    // Integrate
+    for (const n of nodes) {
+        if (n.fixed) continue;
+        n.vx *= DAMPING;
+        n.vy *= DAMPING;
+        n.x += n.vx;
+        n.y += n.vy;
 
-        const pos = this.getNodePositions();
-        const sats = pos.satellites || pos;
-        const center = pos.center || { x: this.cx + this.config.centerX, y: this.cy + this.config.centerY, r: this.config.centerR };
+        // Boundary
+        n.x = Math.max(n.r, Math.min(W - n.r, n.x));
+        n.y = Math.max(n.r, Math.min(H - n.r, n.y));
+    }
+}
 
-        // Draw connection lines (center to satellites)
-        for (let i = 0; i < 6; i++) {
-            const s = sats[i] || sats.satellites[i];
-            ctx.beginPath();
-            ctx.moveTo(center.x, center.y);
-            ctx.lineTo(s.x, s.y);
-            ctx.strokeStyle = `rgba(200,190,180,${0.15 * (s.opacity || 1)})`;
-            ctx.lineWidth = 1.5;
-            ctx.setLineDash([6, 5]);
-            ctx.stroke();
-            ctx.setLineDash([]);
-        }
+function getSpringStress(sp) {
+    const a = nodes[sp.a], b = nodes[sp.b];
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    return Math.abs(dist - sp.restLength) / sp.restLength;
+}
 
-        // Satellite-to-satellite lines
-        for (let i = 0; i < 6; i++) {
-            const a = sats[i];
-            const b = sats[(i+1) % 6];
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(200,190,180,${0.08 * Math.min(a.opacity, b.opacity)})`;
-            ctx.lineWidth = 1;
-            ctx.setLineDash([4, 5]);
-            ctx.stroke();
-            ctx.setLineDash([]);
-        }
+function draw() {
+    ctx.clearRect(0, 0, W, H);
 
-        // Draw glow on hovered node
-        if (this.hoveredNode >= 0) {
-            const s = sats[this.hoveredNode];
-            const gradient = ctx.createRadialGradient(s.x, s.y, s.r * 0.5, s.x, s.y, s.r * 2.5);
-            gradient.addColorStop(0, `rgba(232,93,26,0.2)`);
-            gradient.addColorStop(1, `rgba(232,93,26,0)`);
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r * 2.5, 0, Math.PI * 2);
-            ctx.fillStyle = gradient;
-            ctx.fill();
-        }
+    // Draw springs
+    for (const sp of springs) {
+        const a = nodes[sp.a], b = nodes[sp.b];
+        const stress = getSpringStress(sp);
+        const stressColor = Math.min(1, stress * 3);
 
-        // Draw satellites
-        for (let i = 0; i < 6; i++) {
-            const s = sats[i];
-            const color = this.shiftColor(COLORS[i], s.colorShift);
-
-            // Shadow
-            ctx.save();
-            ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = 12;
-            ctx.shadowOffsetY = 4;
-
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fillStyle = color;
-            ctx.globalAlpha = s.opacity;
-            ctx.fill();
-            ctx.restore();
-
-            // Subtle border
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(255,255,255,${0.1 * s.opacity})`;
-            ctx.lineWidth = 1;
-            ctx.globalAlpha = 1;
-            ctx.stroke();
-
-            // Label
-            const label = s.label || LABELS[i];
-            const lines = label.split('\n');
-            const fontSize = Math.max(9, Math.min(14, s.r * 0.38));
-            ctx.font = `${s.r > 40 ? 700 : 600} ${fontSize}px Inter, sans-serif`;
-            ctx.fillStyle = '#fff';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.globalAlpha = s.opacity;
-            if (lines.length === 1) {
-                ctx.fillText(lines[0], s.x, s.y);
-            } else {
-                ctx.fillText(lines[0], s.x, s.y - fontSize * 0.55);
-                ctx.fillText(lines[1], s.x, s.y + fontSize * 0.55);
-            }
-            ctx.globalAlpha = 1;
-        }
-
-        // Draw center
-        ctx.save();
-        ctx.shadowColor = 'rgba(232,93,26,0.4)';
-        ctx.shadowBlur = 20;
         ctx.beginPath();
-        ctx.arc(center.x, center.y, center.r, 0, Math.PI * 2);
-        ctx.fillStyle = CENTER_COLOR;
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+
+        if (sp.type === 'tension') {
+            // Tension cables: solid, colored by stress
+            const r = Math.round(80 + stressColor * 152);
+            const g = Math.round(80 + stressColor * 13);
+            const b2 = Math.round(80 - stressColor * 54);
+            ctx.strokeStyle = `rgba(${r},${g},${b2},${0.4 + stressColor * 0.4})`;
+            ctx.lineWidth = 2 + stressColor * 1.5;
+            ctx.setLineDash([]);
+        } else if (sp.type === 'strut') {
+            // Compression struts: dashed
+            ctx.strokeStyle = `rgba(200,180,160,${0.2 + stressColor * 0.3})`;
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([8, 6]);
+        } else {
+            // Cross-bracing: dotted
+            ctx.strokeStyle = `rgba(180,180,180,${0.1 + stressColor * 0.15})`;
+            ctx.lineWidth = 1;
+            ctx.setLineDash([3, 5]);
+        }
+
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+
+    // Draw hover glow
+    if (hoverNode > 0) {
+        const n = nodes[hoverNode];
+        const grad = ctx.createRadialGradient(n.x, n.y, n.r * 0.5, n.x, n.y, n.r * 2.5);
+        grad.addColorStop(0, 'rgba(232,93,26,0.15)');
+        grad.addColorStop(1, 'rgba(232,93,26,0)');
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+    }
+
+    // Draw nodes
+    for (let i = nodes.length - 1; i >= 1; i--) {
+        const n = nodes[i];
+
+        // Shadow
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,0.1)';
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetY = 3;
+
+        // Fill
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = n.color;
         ctx.fill();
         ctx.restore();
 
-        // Center ring
+        // Border
         ctx.beginPath();
-        ctx.arc(center.x, center.y, center.r, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,255,255,0.25)';
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
-        // Center text
-        ctx.font = '700 13px Inter, sans-serif';
+        // Label
+        ctx.font = '600 12px Inter, sans-serif';
         ctx.fillStyle = '#fff';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('Projektet', center.x, center.y - 8);
-        ctx.fillText('som helhed', center.x, center.y + 8);
+        ctx.fillText(n.label, n.x, n.y);
     }
 
-    update() {
-        this.time += 0.016;
-        if (this.spinning) this.spinAngle += 0.15;
-        if (this.pulsing) this.pulsePhase += 0.025;
-        if (this.exploding) {
-            this.explodePhase += 0.03;
-            if (this.explodePhase > Math.PI * 4) {
-                this.exploding = false;
-                this.explodePhase = 0;
-            }
-        }
-    }
+    // Draw center node
+    const cn = nodes[0];
+    ctx.save();
+    ctx.shadowColor = 'rgba(232,93,26,0.25)';
+    ctx.shadowBlur = 16;
+    ctx.beginPath();
+    ctx.arc(cn.x, cn.y, cn.r, 0, Math.PI * 2);
+    ctx.fillStyle = '#e85d1a';
+    ctx.fill();
+    ctx.restore();
 
-    hitTest(px, py) {
-        const pos = this.getNodePositions();
-        const scale = this.getScale();
-        const x = px / scale;
-        const y = py / scale;
+    ctx.beginPath();
+    ctx.arc(cn.x, cn.y, cn.r, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
 
-        for (let i = 0; i < 6; i++) {
-            const s = pos.satellites[i];
-            const dx = x - s.x, dy = y - s.y;
-            if (dx*dx + dy*dy < s.r * s.r) return i;
-        }
-        const dx = x - pos.center.x, dy = y - pos.center.y;
-        if (dx*dx + dy*dy < pos.center.r * pos.center.r) return -2;
-        return -1;
-    }
-
-    onPointerDown(e) {
-        const rect = this.canvas.getBoundingClientRect();
-        const px = e.clientX - rect.left;
-        const py = e.clientY - rect.top;
-        const hit = this.hitTest(px, py);
-        if (hit >= 0) {
-            this.dragTarget = hit;
-            this.spinning = false;
-            const scale = this.getScale();
-            const pos = this.getNodePositions();
-            this.dragOffsetX = px / scale - pos.satellites[hit].x;
-            this.dragOffsetY = py / scale - pos.satellites[hit].y;
-            // Clone positions for dragging
-            this.customPositions = JSON.parse(JSON.stringify(pos));
-        }
-    }
-
-    onPointerMove(e) {
-        const rect = this.canvas.getBoundingClientRect();
-        const px = e.clientX - rect.left;
-        const py = e.clientY - rect.top;
-
-        if (this.dragTarget >= 0 && this.customPositions) {
-            const scale = this.getScale();
-            this.customPositions.satellites[this.dragTarget].x = px / scale - this.dragOffsetX;
-            this.customPositions.satellites[this.dragTarget].y = py / scale - this.dragOffsetY;
-        } else {
-            // Hover detection
-            const hit = this.hitTest(px, py);
-            if (hit >= 0 && hit !== this.hoveredNode) {
-                this.hoveredNode = hit;
-                tooltip.innerHTML = `<strong>${LABELS[hit].replace('\n', '')}</strong><br>${TOOLTIPS[hit]}`;
-                tooltip.classList.add('show');
-            } else if (hit < 0) {
-                this.hoveredNode = -1;
-                tooltip.classList.remove('show');
-            }
-            if (this.hoveredNode >= 0) {
-                tooltip.style.left = Math.min(e.clientX + 12, window.innerWidth - 220) + 'px';
-                tooltip.style.top = (e.clientY - 60) + 'px';
-            }
-        }
-    }
-
-    onPointerUp() {
-        this.dragTarget = -1;
-    }
-
-    reset() {
-        this.customPositions = null;
-        this.spinAngle = 0;
-        this.pulsePhase = 0;
-        this.explodePhase = 0;
-        this.exploding = false;
-    }
+    ctx.font = '700 13px Inter, sans-serif';
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(cn.label, cn.x, cn.y);
 }
 
-// Create diagrams
-const diagrams = [
-    new Diagram('diagram1', 0),
-    new Diagram('diagram2', 1),
-    new Diagram('diagram3', 2),
-];
-
-function toggleSpin(i) {
-    diagrams[i].spinning = !diagrams[i].spinning;
-    diagrams[i].customPositions = null;
-    updateButtons(i);
-}
-
-function togglePulse(i) {
-    diagrams[i].pulsing = !diagrams[i].pulsing;
-    updateButtons(i);
-}
-
-function explodeDiagram(i) {
-    diagrams[i].exploding = true;
-    diagrams[i].explodePhase = 0;
-    diagrams[i].customPositions = null;
-}
-
-function resetDiagram(i) {
-    diagrams[i].reset();
-    updateButtons(i);
-}
-
-function updateButtons(i) {
-    const wrapper = diagrams[i].canvas.closest('.diagram-wrapper');
-    const buttons = wrapper.querySelectorAll('button');
-    buttons.forEach(b => {
-        const text = b.textContent;
-        if (text === 'Roter') b.classList.toggle('active', diagrams[i].spinning);
-        if (text === 'Puls') b.classList.toggle('active', diagrams[i].pulsing);
-    });
-}
-
-// Animation loop
 function animate() {
-    diagrams.forEach(d => {
-        d.update();
-        d.draw();
-    });
+    simulate();
+    draw();
     requestAnimationFrame(animate);
 }
+
 animate();
 </script>
 </body>
