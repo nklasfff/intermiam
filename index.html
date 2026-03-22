@@ -2,157 +2,254 @@
 <html lang="da">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Sitecover — Projektdynamik</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: #f5f3f0;
-            color: #2d2d2d;
+            background: #0e0e0e;
+            color: #f0ece6;
             display: flex;
             justify-content: center;
+            -webkit-font-smoothing: antialiased;
         }
 
         .page {
             width: 100%;
             max-width: 420px;
-            background: #ffffff;
             min-height: 100vh;
+            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+            overflow-x: hidden;
         }
 
         /* Header */
         .header {
-            background: #e85d1a;
-            padding: 24px 24px 20px;
+            position: relative;
+            padding: 48px 28px 40px;
             text-align: center;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -30%;
+            width: 160%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(232,93,26,0.15) 0%, transparent 65%);
+            pointer-events: none;
         }
 
         .header .logo-text {
-            font-size: 22px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #e85d1a;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 32px;
             font-weight: 800;
             color: #fff;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .header h1 span {
+            color: #e85d1a;
         }
 
         .header .subtitle {
-            font-size: 11px;
-            color: rgba(255,255,255,0.85);
-            margin-top: 4px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 500;
+            font-size: 14px;
+            color: rgba(240,236,230,0.5);
+            margin-top: 14px;
+            line-height: 1.6;
+            font-weight: 400;
+            position: relative;
+        }
+
+        .header-line {
+            width: 40px;
+            height: 2px;
+            background: #e85d1a;
+            margin: 20px auto 0;
+            position: relative;
         }
 
         /* Sections */
         .section {
-            padding: 40px 24px;
+            padding: 48px 28px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        .section:nth-child(even) {
-            background: #faf9f7;
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .section-number {
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 11px;
+            font-weight: 600;
             color: #e85d1a;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         h2 {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 800;
-            color: #1a1a1a;
+            color: #fff;
             line-height: 1.15;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
+            letter-spacing: -0.3px;
         }
 
         .body-text {
-            font-size: 15px;
-            line-height: 1.65;
-            color: #555;
-            margin-bottom: 28px;
+            font-size: 14.5px;
+            line-height: 1.7;
+            color: rgba(240,236,230,0.55);
+            margin-bottom: 32px;
+            font-weight: 400;
         }
 
-        /* Diagram container */
-        .diagram-container {
-            background: #f7f5f2;
-            border-radius: 16px;
-            padding: 20px 12px 16px;
-            margin-bottom: 16px;
+        /* Interactive diagram */
+        .diagram-wrapper {
+            position: relative;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 12px;
+            backdrop-filter: blur(10px);
         }
 
-        .diagram-container svg {
+        .diagram-wrapper canvas {
             width: 100%;
             height: auto;
             display: block;
+            border-radius: 12px;
+            cursor: grab;
+            touch-action: none;
+        }
+
+        .diagram-wrapper canvas:active {
+            cursor: grabbing;
+        }
+
+        .diagram-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .diagram-controls button {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .diagram-controls button:hover,
+        .diagram-controls button.active {
+            background: rgba(232,93,26,0.15);
+            border-color: rgba(232,93,26,0.4);
+            color: #e85d1a;
         }
 
         .diagram-caption {
             text-align: center;
             font-size: 12px;
-            color: #888;
+            color: rgba(240,236,230,0.35);
             font-style: italic;
-            margin-top: 0;
-            padding: 0 24px;
-            margin-bottom: 8px;
+            padding: 4px 20px 0;
         }
 
         /* Bullet list */
         .bullet-list {
             list-style: none;
-            margin-top: 24px;
+            margin-top: 28px;
         }
 
         .bullet-list li {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 16px;
-            font-size: 14px;
-            line-height: 1.55;
-            color: #444;
+            gap: 14px;
+            margin-bottom: 18px;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: rgba(240,236,230,0.5);
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: all 0.3s ease;
+        }
+
+        .bullet-list li:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.08);
         }
 
         .bullet-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             flex-shrink: 0;
-            margin-top: 5px;
+            margin-top: 6px;
+            box-shadow: 0 0 8px currentColor;
         }
 
         .bullet-list li strong {
-            color: #1a1a1a;
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* Dividers */
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(232,93,26,0.3), transparent);
+            margin: 0;
         }
 
         /* Footer */
         .footer {
-            background: #2d2d2d;
-            padding: 28px 24px;
+            padding: 48px 28px 40px;
             text-align: center;
+            position: relative;
         }
 
-        .footer p {
-            color: rgba(255,255,255,0.5);
-            font-size: 12px;
-            line-height: 1.6;
+        .footer::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -20%;
+            width: 140%;
+            height: 300px;
+            background: radial-gradient(ellipse at center bottom, rgba(232,93,26,0.08) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .footer .cta-btn {
@@ -160,256 +257,614 @@
             background: #e85d1a;
             color: #fff;
             text-decoration: none;
-            padding: 14px 32px;
-            border-radius: 6px;
+            padding: 16px 40px;
+            border-radius: 50px;
             font-weight: 700;
             font-size: 15px;
-            margin-bottom: 16px;
             letter-spacing: 0.5px;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 24px rgba(232,93,26,0.3);
         }
 
-        /* Divider */
-        .section-divider {
-            width: 48px;
-            height: 3px;
-            background: #e85d1a;
-            border-radius: 2px;
-            margin-bottom: 24px;
+        .footer .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(232,93,26,0.45);
         }
+
+        .footer p {
+            color: rgba(240,236,230,0.3);
+            font-size: 12px;
+            line-height: 1.6;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(232,93,26,0.3);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        .page { position: relative; z-index: 1; }
+
+        /* Tooltip */
+        .tooltip {
+            position: fixed;
+            background: rgba(20,20,20,0.95);
+            border: 1px solid rgba(232,93,26,0.3);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            max-width: 200px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .tooltip.show { opacity: 1; }
+        .tooltip strong { color: #e85d1a; }
     </style>
 </head>
 <body>
-    <div class="page">
 
-        <!-- Header -->
-        <div class="header">
-            <div class="logo-text">Sitecover</div>
-            <div class="subtitle">Vejrbeskyttelse &amp; integrerede kraner</div>
-        </div>
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
 
-        <!-- SEKTION 1: Balance -->
-        <div class="section">
-            <div class="section-number">Sektion 01</div>
-            <h2>Når alt er i balance</h2>
-            <div class="section-divider"></div>
-            <p class="body-text">
-                En byggeplads fungerer bedst, når alle dele arbejder sammen. Med Sitecover er vejrbeskyttelse og krankapacitet integreret fra dag ét — og resten af projektet kan køre stabilt, sikkert og til tiden.
-            </p>
+<!-- Tooltip -->
+<div class="tooltip" id="tooltip"></div>
 
-            <div class="diagram-container">
-                <svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Dashed connection lines -->
-                    <line x1="180" y1="180" x2="180" y2="62" stroke="#c4bfb8" stroke-width="1.5" stroke-dasharray="5,4"/>
-                    <line x1="180" y1="180" x2="282" y2="121" stroke="#c4bfb8" stroke-width="1.5" stroke-dasharray="5,4"/>
-                    <line x1="180" y1="180" x2="282" y2="239" stroke="#c4bfb8" stroke-width="1.5" stroke-dasharray="5,4"/>
-                    <line x1="180" y1="180" x2="180" y2="298" stroke="#c4bfb8" stroke-width="1.5" stroke-dasharray="5,4"/>
-                    <line x1="180" y1="180" x2="78" y2="239" stroke="#c4bfb8" stroke-width="1.5" stroke-dasharray="5,4"/>
-                    <line x1="180" y1="180" x2="78" y2="121" stroke="#c4bfb8" stroke-width="1.5" stroke-dasharray="5,4"/>
+<div class="page">
 
-                    <!-- Satellite-to-satellite dashed lines -->
-                    <line x1="180" y1="62" x2="282" y2="121" stroke="#ddd8d2" stroke-width="1" stroke-dasharray="3,4"/>
-                    <line x1="282" y1="121" x2="282" y2="239" stroke="#ddd8d2" stroke-width="1" stroke-dasharray="3,4"/>
-                    <line x1="282" y1="239" x2="180" y2="298" stroke="#ddd8d2" stroke-width="1" stroke-dasharray="3,4"/>
-                    <line x1="180" y1="298" x2="78" y2="239" stroke="#ddd8d2" stroke-width="1" stroke-dasharray="3,4"/>
-                    <line x1="78" y1="239" x2="78" y2="121" stroke="#ddd8d2" stroke-width="1" stroke-dasharray="3,4"/>
-                    <line x1="78" y1="121" x2="180" y2="62" stroke="#ddd8d2" stroke-width="1" stroke-dasharray="3,4"/>
-
-                    <!-- Center circle -->
-                    <circle cx="180" cy="180" r="52" fill="#e85d1a"/>
-                    <text x="180" y="174" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="Inter, sans-serif">Projektet</text>
-                    <text x="180" y="188" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="Inter, sans-serif">som helhed</text>
-
-                    <!-- Satellite 1: Vejrbeskyttelse (top) -->
-                    <circle cx="180" cy="62" r="36" fill="#d4520f"/>
-                    <text x="180" y="58" text-anchor="middle" fill="#fff" font-size="8.5" font-weight="600" font-family="Inter, sans-serif">Vejr-</text>
-                    <text x="180" y="70" text-anchor="middle" fill="#fff" font-size="8.5" font-weight="600" font-family="Inter, sans-serif">beskyttelse</text>
-
-                    <!-- Satellite 2: Krankapacitet (top-right) -->
-                    <circle cx="282" cy="121" r="36" fill="#c2790a"/>
-                    <text x="282" y="117" text-anchor="middle" fill="#fff" font-size="8.5" font-weight="600" font-family="Inter, sans-serif">Kran-</text>
-                    <text x="282" y="129" text-anchor="middle" fill="#fff" font-size="8.5" font-weight="600" font-family="Inter, sans-serif">kapacitet</text>
-
-                    <!-- Satellite 3: Tidsplan (bottom-right) -->
-                    <circle cx="282" cy="239" r="36" fill="#3d8b6e"/>
-                    <text x="282" y="243" text-anchor="middle" fill="#fff" font-size="9" font-weight="600" font-family="Inter, sans-serif">Tidsplan</text>
-
-                    <!-- Satellite 4: Materialer (bottom) -->
-                    <circle cx="180" cy="298" r="36" fill="#5a7fa5"/>
-                    <text x="180" y="302" text-anchor="middle" fill="#fff" font-size="9" font-weight="600" font-family="Inter, sans-serif">Materialer</text>
-
-                    <!-- Satellite 5: Sikkerhed (bottom-left) -->
-                    <circle cx="78" cy="239" r="36" fill="#7b6b99"/>
-                    <text x="78" y="243" text-anchor="middle" fill="#fff" font-size="9" font-weight="600" font-family="Inter, sans-serif">Sikkerhed</text>
-
-                    <!-- Satellite 6: Økonomi (top-left) -->
-                    <circle cx="78" cy="121" r="36" fill="#4a8a9e"/>
-                    <text x="78" y="125" text-anchor="middle" fill="#fff" font-size="9" font-weight="600" font-family="Inter, sans-serif">Økonomi</text>
-                </svg>
-            </div>
-            <p class="diagram-caption">Systemet i balance — alle områder støtter hinanden</p>
-        </div>
-
-        <!-- SEKTION 2: Under pres -->
-        <div class="section">
-            <div class="section-number">Sektion 02</div>
-            <h2>Når systemet er under pres</h2>
-            <div class="section-divider"></div>
-            <p class="body-text">
-                Uden tilstrækkelig vejrbeskyttelse begynder hele byggepladsen at miste sin rytme. Nedbør stopper arbejdet, vind forsinker kranløft, og materialerne lider. Presset forplanter sig til tidsplan, økonomi og sikkerhed.
-            </p>
-
-            <div class="diagram-container">
-                <svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Dashed connection lines (irregular) -->
-                    <line x1="190" y1="188" x2="195" y2="78" stroke="#c4bfb8" stroke-width="1.2" stroke-dasharray="6,5"/>
-                    <line x1="190" y1="188" x2="290" y2="108" stroke="#c4bfb8" stroke-width="1.5" stroke-dasharray="4,4"/>
-                    <line x1="190" y1="188" x2="298" y2="248" stroke="#c4bfb8" stroke-width="2" stroke-dasharray="5,3"/>
-                    <line x1="190" y1="188" x2="168" y2="306" stroke="#c4bfb8" stroke-width="1.3" stroke-dasharray="5,5"/>
-                    <line x1="190" y1="188" x2="68" y2="252" stroke="#c4bfb8" stroke-width="1.5" stroke-dasharray="4,4"/>
-                    <line x1="190" y1="188" x2="65" y2="115" stroke="#c4bfb8" stroke-width="2" stroke-dasharray="5,3"/>
-
-                    <!-- Satellite-to-satellite dashed lines (irregular) -->
-                    <line x1="195" y1="78" x2="290" y2="108" stroke="#ddd8d2" stroke-width="0.8" stroke-dasharray="3,5"/>
-                    <line x1="290" y1="108" x2="298" y2="248" stroke="#ddd8d2" stroke-width="1" stroke-dasharray="3,4"/>
-                    <line x1="298" y1="248" x2="168" y2="306" stroke="#ddd8d2" stroke-width="0.8" stroke-dasharray="4,5"/>
-                    <line x1="168" y1="306" x2="68" y2="252" stroke="#ddd8d2" stroke-width="1" stroke-dasharray="3,4"/>
-                    <line x1="68" y1="252" x2="65" y2="115" stroke="#ddd8d2" stroke-width="0.8" stroke-dasharray="3,5"/>
-                    <line x1="65" y1="115" x2="195" y2="78" stroke="#ddd8d2" stroke-width="1" stroke-dasharray="3,4"/>
-
-                    <!-- Center circle (shifted) -->
-                    <circle cx="190" cy="188" r="50" fill="#e85d1a"/>
-                    <text x="190" y="182" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="Inter, sans-serif">Projektet</text>
-                    <text x="190" y="196" text-anchor="middle" fill="#fff" font-size="10" font-weight="700" font-family="Inter, sans-serif">som helhed</text>
-
-                    <!-- Satellite 1: Vejrbeskyttelse (SHRUNK, faded) -->
-                    <circle cx="195" cy="78" r="22" fill="#e8a88a" opacity="0.65"/>
-                    <text x="195" y="74" text-anchor="middle" fill="#fff" font-size="7" font-weight="600" font-family="Inter, sans-serif" opacity="0.8">Vejr-</text>
-                    <text x="195" y="84" text-anchor="middle" fill="#fff" font-size="7" font-weight="600" font-family="Inter, sans-serif" opacity="0.8">beskyttelse</text>
-
-                    <!-- Satellite 2: Krankapacitet (slightly smaller, shifted) -->
-                    <circle cx="290" cy="108" r="30" fill="#c2790a" opacity="0.75"/>
-                    <text x="290" y="104" text-anchor="middle" fill="#fff" font-size="8" font-weight="600" font-family="Inter, sans-serif">Kran-</text>
-                    <text x="290" y="115" text-anchor="middle" fill="#fff" font-size="8" font-weight="600" font-family="Inter, sans-serif">kapacitet</text>
-
-                    <!-- Satellite 3: Tidsplan (GROWN, intense) -->
-                    <circle cx="298" cy="248" r="46" fill="#24724f"/>
-                    <text x="298" y="252" text-anchor="middle" fill="#fff" font-size="11" font-weight="700" font-family="Inter, sans-serif">Tidsplan</text>
-
-                    <!-- Satellite 4: Materialer (shifted, slightly smaller) -->
-                    <circle cx="168" cy="306" r="30" fill="#5a7fa5" opacity="0.7"/>
-                    <text x="168" y="310" text-anchor="middle" fill="#fff" font-size="8.5" font-weight="600" font-family="Inter, sans-serif">Materialer</text>
-
-                    <!-- Satellite 5: Sikkerhed (shifted, slightly smaller) -->
-                    <circle cx="68" cy="252" r="32" fill="#7b6b99" opacity="0.75"/>
-                    <text x="68" y="256" text-anchor="middle" fill="#fff" font-size="8.5" font-weight="600" font-family="Inter, sans-serif">Sikkerhed</text>
-
-                    <!-- Satellite 6: Økonomi (GROWN, intense) -->
-                    <circle cx="65" cy="115" r="44" fill="#2e6e80"/>
-                    <text x="65" y="119" text-anchor="middle" fill="#fff" font-size="11" font-weight="700" font-family="Inter, sans-serif">Økonomi</text>
-                </svg>
-            </div>
-            <p class="diagram-caption">Systemet under pres — symmetrien er brudt</p>
-
-            <ul class="bullet-list">
-                <li>
-                    <span class="bullet-dot" style="background:#e8a88a"></span>
-                    <span><strong>Vejrbeskyttelse:</strong> Manglende overdækning stopper arbejdet ved regn og blæst. Fundamentet for hele systemet svækkes.</span>
-                </li>
-                <li>
-                    <span class="bullet-dot" style="background:#c2790a"></span>
-                    <span><strong>Krankapacitet:</strong> Vindrestriktioner reducerer antal løftedage. Kranen står stille, men koster det samme.</span>
-                </li>
-                <li>
-                    <span class="bullet-dot" style="background:#24724f"></span>
-                    <span><strong>Tidsplan:</strong> Vejrlig forsinkelser akkumuleres. Hver regndag skubber afleveringen og øger presset.</span>
-                </li>
-                <li>
-                    <span class="bullet-dot" style="background:#5a7fa5"></span>
-                    <span><strong>Materialer:</strong> Fugt og nedbør skader materialer der ligger udækket. Spild og genbestillinger stiger.</span>
-                </li>
-                <li>
-                    <span class="bullet-dot" style="background:#7b6b99"></span>
-                    <span><strong>Sikkerhed:</strong> Våde overflader, blæst og dårligt udsyn øger ulykkesrisikoen markant.</span>
-                </li>
-                <li>
-                    <span class="bullet-dot" style="background:#2e6e80"></span>
-                    <span><strong>Økonomi:</strong> Forsinkelser, materialespild og stilstand rammer budgettet direkte. Omkostningerne vokser ukontrolleret.</span>
-                </li>
-            </ul>
-        </div>
-
-        <!-- SEKTION 3: Dominans -->
-        <div class="section">
-            <div class="section-number">Sektion 03</div>
-            <h2>Når ét område dominerer</h2>
-            <div class="section-divider"></div>
-            <p class="body-text">
-                Uden handling tager forsinkelserne over. Ét problem vokser sig så stort, at det trækker alle andre områder med sig — og hele projektet mister retning. Det er her, omkostningerne eksploderer.
-            </p>
-
-            <div class="diagram-container">
-                <svg viewBox="0 0 360 380" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Dashed connection lines (pulled toward dominant) -->
-                    <line x1="175" y1="200" x2="210" y2="72" stroke="#c4bfb8" stroke-width="1" stroke-dasharray="6,5"/>
-                    <line x1="175" y1="200" x2="290" y2="135" stroke="#c4bfb8" stroke-width="1.2" stroke-dasharray="4,4"/>
-                    <line x1="175" y1="200" x2="300" y2="270" stroke="#c4bfb8" stroke-width="2.5" stroke-dasharray="5,3"/>
-                    <line x1="175" y1="200" x2="145" y2="340" stroke="#c4bfb8" stroke-width="1" stroke-dasharray="5,6"/>
-                    <line x1="175" y1="200" x2="55" y2="278" stroke="#c4bfb8" stroke-width="1" stroke-dasharray="5,6"/>
-                    <line x1="175" y1="200" x2="58" y2="130" stroke="#c4bfb8" stroke-width="1.5" stroke-dasharray="4,4"/>
-
-                    <!-- Pull lines from dominant to neighbors -->
-                    <line x1="300" y1="270" x2="290" y2="135" stroke="#d4520f" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.4"/>
-                    <line x1="300" y1="270" x2="145" y2="340" stroke="#d4520f" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.4"/>
-                    <line x1="300" y1="270" x2="175" y2="200" stroke="#d4520f" stroke-width="2" stroke-dasharray="3,3" opacity="0.3"/>
-
-                    <!-- Outer connecting lines (faint) -->
-                    <line x1="210" y1="72" x2="290" y2="135" stroke="#e8e4de" stroke-width="0.7" stroke-dasharray="3,6"/>
-                    <line x1="145" y1="340" x2="55" y2="278" stroke="#e8e4de" stroke-width="0.7" stroke-dasharray="3,6"/>
-                    <line x1="55" y1="278" x2="58" y2="130" stroke="#e8e4de" stroke-width="0.7" stroke-dasharray="3,6"/>
-                    <line x1="58" y1="130" x2="210" y2="72" stroke="#e8e4de" stroke-width="0.7" stroke-dasharray="3,6"/>
-
-                    <!-- Center circle (shifted, slightly smaller) -->
-                    <circle cx="175" cy="200" r="46" fill="#e85d1a" opacity="0.85"/>
-                    <text x="175" y="194" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter, sans-serif">Projektet</text>
-                    <text x="175" y="208" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700" font-family="Inter, sans-serif">som helhed</text>
-
-                    <!-- Satellite 1: Vejrbeskyttelse (very small, faded) -->
-                    <circle cx="210" cy="72" r="16" fill="#e8c4b0" opacity="0.45"/>
-                    <text x="210" y="68" text-anchor="middle" fill="#fff" font-size="5.5" font-weight="600" font-family="Inter, sans-serif" opacity="0.7">Vejr-</text>
-                    <text x="210" y="77" text-anchor="middle" fill="#fff" font-size="5.5" font-weight="600" font-family="Inter, sans-serif" opacity="0.7">beskyttelse</text>
-
-                    <!-- Satellite 2: Krankapacitet (small, slightly faded) -->
-                    <circle cx="290" cy="135" r="24" fill="#c2790a" opacity="0.55"/>
-                    <text x="290" y="131" text-anchor="middle" fill="#fff" font-size="7" font-weight="600" font-family="Inter, sans-serif">Kran-</text>
-                    <text x="290" y="141" text-anchor="middle" fill="#fff" font-size="7" font-weight="600" font-family="Inter, sans-serif">kapacitet</text>
-
-                    <!-- Satellite 3: FORSINKELSER (DOMINANT — huge, intense) -->
-                    <circle cx="300" cy="270" r="62" fill="#1a5c3a"/>
-                    <text x="300" y="264" text-anchor="middle" fill="#fff" font-size="12" font-weight="800" font-family="Inter, sans-serif">Forsin-</text>
-                    <text x="300" y="280" text-anchor="middle" fill="#fff" font-size="12" font-weight="800" font-family="Inter, sans-serif">kelser</text>
-
-                    <!-- Satellite 4: Materialer (small, faded) -->
-                    <circle cx="145" cy="340" r="20" fill="#5a7fa5" opacity="0.45"/>
-                    <text x="145" y="344" text-anchor="middle" fill="#fff" font-size="7" font-weight="600" font-family="Inter, sans-serif" opacity="0.7">Materialer</text>
-
-                    <!-- Satellite 5: Sikkerhed (small, faded) -->
-                    <circle cx="55" cy="278" r="18" fill="#7b6b99" opacity="0.4"/>
-                    <text x="55" y="282" text-anchor="middle" fill="#fff" font-size="6.5" font-weight="600" font-family="Inter, sans-serif" opacity="0.7">Sikkerhed</text>
-
-                    <!-- Satellite 6: Økonomi (medium, pulled toward dominant) -->
-                    <circle cx="58" cy="130" r="34" fill="#2e6e80" opacity="0.7"/>
-                    <text x="58" y="134" text-anchor="middle" fill="#fff" font-size="9" font-weight="600" font-family="Inter, sans-serif">Økonomi</text>
-                </svg>
-            </div>
-            <p class="diagram-caption">Forsinkelser uden beskyttelse trækker hele projektet ud af balance</p>
-        </div>
-
-        <!-- Footer / CTA -->
-        <div class="footer">
-            <a href="https://sitecover.com" class="cta-btn">Kontakt Sitecover</a>
-            <p>Sitecover leverer integreret vejrbeskyttelse og kranløsninger til byggepladser i hele Europa.</p>
-        </div>
-
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-text">Sitecover</div>
+        <h1>Projektets <span>dynamik</span></h1>
+        <p class="subtitle">Hvordan vejrbeskyttelse påvirker hele byggepladsens balance, risiko og økonomi.</p>
+        <div class="header-line"></div>
     </div>
+
+    <div class="section-divider"></div>
+
+    <!-- SEKTION 1 -->
+    <div class="section" data-section="1">
+        <div class="section-number">01 — Balance</div>
+        <h2>Når alt er i balance</h2>
+        <p class="body-text">
+            En byggeplads fungerer bedst, når alle dele arbejder sammen. Med Sitecover er vejrbeskyttelse og krankapacitet integreret fra dag ét — og resten af projektet kan køre stabilt, sikkert og til tiden.
+        </p>
+        <div class="diagram-wrapper">
+            <canvas id="diagram1" width="700" height="700"></canvas>
+            <div class="diagram-controls">
+                <button onclick="toggleSpin(0)" class="active">Roter</button>
+                <button onclick="togglePulse(0)">Puls</button>
+                <button onclick="resetDiagram(0)">Nulstil</button>
+            </div>
+        </div>
+        <p class="diagram-caption">Systemet i balance — alle områder støtter hinanden</p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- SEKTION 2 -->
+    <div class="section" data-section="2">
+        <div class="section-number">02 — Under pres</div>
+        <h2>Når systemet er under pres</h2>
+        <p class="body-text">
+            Uden tilstrækkelig vejrbeskyttelse begynder hele byggepladsen at miste sin rytme. Nedbør stopper arbejdet, vind forsinker kranløft, og materialerne lider.
+        </p>
+        <div class="diagram-wrapper">
+            <canvas id="diagram2" width="700" height="700"></canvas>
+            <div class="diagram-controls">
+                <button onclick="toggleSpin(1)">Roter</button>
+                <button onclick="togglePulse(1)" class="active">Puls</button>
+                <button onclick="resetDiagram(1)">Nulstil</button>
+            </div>
+        </div>
+        <p class="diagram-caption">Systemet under pres — symmetrien er brudt</p>
+
+        <ul class="bullet-list">
+            <li>
+                <span class="bullet-dot" style="background:#e8a88a; color:#e8a88a"></span>
+                <span><strong>Vejrbeskyttelse:</strong> Manglende overdækning stopper arbejdet ved regn og blæst.</span>
+            </li>
+            <li>
+                <span class="bullet-dot" style="background:#c2790a; color:#c2790a"></span>
+                <span><strong>Krankapacitet:</strong> Vindrestriktioner reducerer antal løftedage markant.</span>
+            </li>
+            <li>
+                <span class="bullet-dot" style="background:#24724f; color:#24724f"></span>
+                <span><strong>Tidsplan:</strong> Vejrlig forsinkelser akkumuleres dag for dag.</span>
+            </li>
+            <li>
+                <span class="bullet-dot" style="background:#5a7fa5; color:#5a7fa5"></span>
+                <span><strong>Materialer:</strong> Fugt og nedbør skader materialer der ligger udækket.</span>
+            </li>
+            <li>
+                <span class="bullet-dot" style="background:#7b6b99; color:#7b6b99"></span>
+                <span><strong>Sikkerhed:</strong> Våde overflader og blæst øger ulykkesrisikoen.</span>
+            </li>
+            <li>
+                <span class="bullet-dot" style="background:#2e6e80; color:#2e6e80"></span>
+                <span><strong>Økonomi:</strong> Forsinkelser og stilstand rammer budgettet direkte.</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- SEKTION 3 -->
+    <div class="section" data-section="3">
+        <div class="section-number">03 — Dominans</div>
+        <h2>Når ét område dominerer</h2>
+        <p class="body-text">
+            Uden handling tager forsinkelserne over. Ét problem vokser sig så stort, at det trækker alle andre områder med sig — og hele projektet mister retning.
+        </p>
+        <div class="diagram-wrapper">
+            <canvas id="diagram3" width="700" height="700"></canvas>
+            <div class="diagram-controls">
+                <button onclick="toggleSpin(2)">Roter</button>
+                <button onclick="togglePulse(2)" class="active">Puls</button>
+                <button onclick="explodeDiagram(2)">Eksplosion</button>
+                <button onclick="resetDiagram(2)">Nulstil</button>
+            </div>
+        </div>
+        <p class="diagram-caption">Forsinkelser uden beskyttelse trækker hele projektet ud af balance</p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <a href="https://sitecover.com" class="cta-btn">Kontakt Sitecover</a>
+        <p>Sitecover leverer integreret vejrbeskyttelse<br>og kranløsninger til byggepladser i hele Europa.</p>
+    </div>
+
+</div>
+
+<script>
+// ==================== PARTICLES ====================
+(function() {
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (8 + Math.random() * 15) + 's';
+        p.style.animationDelay = (Math.random() * 10) + 's';
+        p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+        container.appendChild(p);
+    }
+})();
+
+// ==================== SCROLL REVEAL ====================
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+    });
+}, { threshold: 0.15 });
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// ==================== DIAGRAM ENGINE ====================
+const LABELS = ['Vejr-\nbeskyttelse', 'Kran-\nkapacitet', 'Tidsplan', 'Materialer', 'Sikkerhed', 'Økonomi'];
+const COLORS = ['#d4520f', '#c2790a', '#3d8b6e', '#5a7fa5', '#7b6b99', '#4a8a9e'];
+const CENTER_COLOR = '#e85d1a';
+
+const TOOLTIPS = [
+    'Vejrbeskyttelse sikrer uafbrudt arbejde uanset vejrforhold.',
+    'Krankapacitet optimeres med integreret overdækning.',
+    'Tidsplanen holdes stabil med forudsigelige arbejdsforhold.',
+    'Materialer beskyttes mod fugt, regn og vind.',
+    'Sikkerheden styrkes med tørre, kontrollerede forhold.',
+    'Økonomien stabiliseres når forsinkelser minimeres.'
+];
+
+const tooltip = document.getElementById('tooltip');
+
+// State configurations for 3 diagrams
+const CONFIGS = [
+    // 1: Balanced
+    {
+        centerR: 52, centerX: 0, centerY: 0,
+        satellites: [
+            { angle: -90, dist: 125, r: 36, opacity: 1, colorShift: 0 },
+            { angle: -30, dist: 125, r: 36, opacity: 1, colorShift: 0 },
+            { angle:  30, dist: 125, r: 36, opacity: 1, colorShift: 0 },
+            { angle:  90, dist: 125, r: 36, opacity: 1, colorShift: 0 },
+            { angle: 150, dist: 125, r: 36, opacity: 1, colorShift: 0 },
+            { angle: 210, dist: 125, r: 36, opacity: 1, colorShift: 0 },
+        ]
+    },
+    // 2: Under pressure
+    {
+        centerR: 50, centerX: 10, centerY: 8,
+        satellites: [
+            { angle: -85, dist: 118, r: 22, opacity: 0.5, colorShift: 0.4 },
+            { angle: -25, dist: 130, r: 30, opacity: 0.7, colorShift: 0.1 },
+            { angle:  38, dist: 115, r: 46, opacity: 1,   colorShift: -0.2 },
+            { angle:  95, dist: 135, r: 30, opacity: 0.6, colorShift: 0.15 },
+            { angle: 155, dist: 120, r: 32, opacity: 0.65, colorShift: 0.1 },
+            { angle: 215, dist: 110, r: 44, opacity: 1,   colorShift: -0.2 },
+        ]
+    },
+    // 3: Dominance
+    {
+        centerR: 44, centerX: -12, centerY: 10,
+        satellites: [
+            { angle: -80, dist: 135, r: 16, opacity: 0.3, colorShift: 0.5 },
+            { angle: -20, dist: 110, r: 24, opacity: 0.45, colorShift: 0.3 },
+            { angle:  40, dist: 90,  r: 65, opacity: 1,   colorShift: -0.3, label: 'Forsin-\nkelser' },
+            { angle: 100, dist: 140, r: 20, opacity: 0.35, colorShift: 0.4 },
+            { angle: 160, dist: 145, r: 18, opacity: 0.3, colorShift: 0.45 },
+            { angle: 220, dist: 105, r: 34, opacity: 0.6, colorShift: 0.05 },
+        ]
+    }
+];
+
+class Diagram {
+    constructor(canvasId, configIndex) {
+        this.canvas = document.getElementById(canvasId);
+        this.ctx = this.canvas.getContext('2d');
+        this.config = CONFIGS[configIndex];
+        this.configIndex = configIndex;
+        this.cx = 350;
+        this.cy = 350;
+        this.spinning = configIndex === 0;
+        this.pulsing = configIndex !== 0;
+        this.exploding = false;
+        this.spinAngle = 0;
+        this.pulsePhase = 0;
+        this.explodePhase = 0;
+        this.dragTarget = -1; // -1 = none, -2 = center, 0-5 = satellite
+        this.dragOffsetX = 0;
+        this.dragOffsetY = 0;
+        this.hoveredNode = -1;
+        this.customPositions = null; // for drag overrides
+        this.time = 0;
+
+        // Touch/mouse events
+        this.canvas.addEventListener('pointerdown', (e) => this.onPointerDown(e));
+        this.canvas.addEventListener('pointermove', (e) => this.onPointerMove(e));
+        this.canvas.addEventListener('pointerup', () => this.onPointerUp());
+        this.canvas.addEventListener('pointerleave', () => { this.onPointerUp(); this.hoveredNode = -1; tooltip.classList.remove('show'); });
+    }
+
+    getScale() {
+        return this.canvas.clientWidth / this.canvas.width;
+    }
+
+    getNodePositions() {
+        if (this.customPositions) return this.customPositions;
+        const c = this.config;
+        const positions = [];
+        const centerX = this.cx + c.centerX;
+        const centerY = this.cy + c.centerY;
+
+        for (let i = 0; i < 6; i++) {
+            const s = c.satellites[i];
+            const angle = (s.angle + (this.spinning ? this.spinAngle : 0)) * Math.PI / 180;
+            let dist = s.dist;
+            let r = s.r;
+
+            if (this.pulsing) {
+                const pulseOffset = Math.sin(this.pulsePhase + i * 1.05) * 8;
+                dist += pulseOffset;
+                r += Math.sin(this.pulsePhase + i * 0.8) * 2;
+            }
+
+            if (this.exploding) {
+                const explodeMult = 1 + Math.sin(this.explodePhase) * 0.6;
+                dist *= explodeMult;
+                r *= 1 + Math.sin(this.explodePhase + i) * 0.15;
+            }
+
+            positions.push({
+                x: centerX + Math.cos(angle) * dist,
+                y: centerY + Math.sin(angle) * dist,
+                r: Math.max(12, r),
+                opacity: s.opacity,
+                colorShift: s.colorShift,
+                label: s.label || null
+            });
+        }
+
+        return { center: { x: centerX, y: centerY, r: c.centerR }, satellites: positions };
+    }
+
+    shiftColor(hex, amount) {
+        let r = parseInt(hex.slice(1,3), 16);
+        let g = parseInt(hex.slice(3,5), 16);
+        let b = parseInt(hex.slice(5,7), 16);
+        // Lighten (positive amount) or darken (negative)
+        if (amount > 0) {
+            r = Math.min(255, r + Math.round((255 - r) * amount));
+            g = Math.min(255, g + Math.round((255 - g) * amount));
+            b = Math.min(255, b + Math.round((255 - b) * amount));
+        } else {
+            r = Math.max(0, r + Math.round(r * amount));
+            g = Math.max(0, g + Math.round(g * amount));
+            b = Math.max(0, b + Math.round(b * amount));
+        }
+        return `rgb(${r},${g},${b})`;
+    }
+
+    draw() {
+        const ctx = this.ctx;
+        const W = this.canvas.width;
+        const H = this.canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        const pos = this.getNodePositions();
+        const sats = pos.satellites || pos;
+        const center = pos.center || { x: this.cx + this.config.centerX, y: this.cy + this.config.centerY, r: this.config.centerR };
+
+        // Draw connection lines (center to satellites)
+        for (let i = 0; i < 6; i++) {
+            const s = sats[i] || sats.satellites[i];
+            ctx.beginPath();
+            ctx.moveTo(center.x, center.y);
+            ctx.lineTo(s.x, s.y);
+            ctx.strokeStyle = `rgba(200,190,180,${0.15 * (s.opacity || 1)})`;
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([6, 5]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        // Satellite-to-satellite lines
+        for (let i = 0; i < 6; i++) {
+            const a = sats[i];
+            const b = sats[(i+1) % 6];
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(200,190,180,${0.08 * Math.min(a.opacity, b.opacity)})`;
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 5]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        // Draw glow on hovered node
+        if (this.hoveredNode >= 0) {
+            const s = sats[this.hoveredNode];
+            const gradient = ctx.createRadialGradient(s.x, s.y, s.r * 0.5, s.x, s.y, s.r * 2.5);
+            gradient.addColorStop(0, `rgba(232,93,26,0.2)`);
+            gradient.addColorStop(1, `rgba(232,93,26,0)`);
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r * 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+        }
+
+        // Draw satellites
+        for (let i = 0; i < 6; i++) {
+            const s = sats[i];
+            const color = this.shiftColor(COLORS[i], s.colorShift);
+
+            // Shadow
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 12;
+            ctx.shadowOffsetY = 4;
+
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.globalAlpha = s.opacity;
+            ctx.fill();
+            ctx.restore();
+
+            // Subtle border
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(255,255,255,${0.1 * s.opacity})`;
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = 1;
+            ctx.stroke();
+
+            // Label
+            const label = s.label || LABELS[i];
+            const lines = label.split('\n');
+            const fontSize = Math.max(9, Math.min(14, s.r * 0.38));
+            ctx.font = `${s.r > 40 ? 700 : 600} ${fontSize}px Inter, sans-serif`;
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.globalAlpha = s.opacity;
+            if (lines.length === 1) {
+                ctx.fillText(lines[0], s.x, s.y);
+            } else {
+                ctx.fillText(lines[0], s.x, s.y - fontSize * 0.55);
+                ctx.fillText(lines[1], s.x, s.y + fontSize * 0.55);
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        // Draw center
+        ctx.save();
+        ctx.shadowColor = 'rgba(232,93,26,0.4)';
+        ctx.shadowBlur = 20;
+        ctx.beginPath();
+        ctx.arc(center.x, center.y, center.r, 0, Math.PI * 2);
+        ctx.fillStyle = CENTER_COLOR;
+        ctx.fill();
+        ctx.restore();
+
+        // Center ring
+        ctx.beginPath();
+        ctx.arc(center.x, center.y, center.r, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Center text
+        ctx.font = '700 13px Inter, sans-serif';
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Projektet', center.x, center.y - 8);
+        ctx.fillText('som helhed', center.x, center.y + 8);
+    }
+
+    update() {
+        this.time += 0.016;
+        if (this.spinning) this.spinAngle += 0.15;
+        if (this.pulsing) this.pulsePhase += 0.025;
+        if (this.exploding) {
+            this.explodePhase += 0.03;
+            if (this.explodePhase > Math.PI * 4) {
+                this.exploding = false;
+                this.explodePhase = 0;
+            }
+        }
+    }
+
+    hitTest(px, py) {
+        const pos = this.getNodePositions();
+        const scale = this.getScale();
+        const x = px / scale;
+        const y = py / scale;
+
+        for (let i = 0; i < 6; i++) {
+            const s = pos.satellites[i];
+            const dx = x - s.x, dy = y - s.y;
+            if (dx*dx + dy*dy < s.r * s.r) return i;
+        }
+        const dx = x - pos.center.x, dy = y - pos.center.y;
+        if (dx*dx + dy*dy < pos.center.r * pos.center.r) return -2;
+        return -1;
+    }
+
+    onPointerDown(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const px = e.clientX - rect.left;
+        const py = e.clientY - rect.top;
+        const hit = this.hitTest(px, py);
+        if (hit >= 0) {
+            this.dragTarget = hit;
+            this.spinning = false;
+            const scale = this.getScale();
+            const pos = this.getNodePositions();
+            this.dragOffsetX = px / scale - pos.satellites[hit].x;
+            this.dragOffsetY = py / scale - pos.satellites[hit].y;
+            // Clone positions for dragging
+            this.customPositions = JSON.parse(JSON.stringify(pos));
+        }
+    }
+
+    onPointerMove(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const px = e.clientX - rect.left;
+        const py = e.clientY - rect.top;
+
+        if (this.dragTarget >= 0 && this.customPositions) {
+            const scale = this.getScale();
+            this.customPositions.satellites[this.dragTarget].x = px / scale - this.dragOffsetX;
+            this.customPositions.satellites[this.dragTarget].y = py / scale - this.dragOffsetY;
+        } else {
+            // Hover detection
+            const hit = this.hitTest(px, py);
+            if (hit >= 0 && hit !== this.hoveredNode) {
+                this.hoveredNode = hit;
+                tooltip.innerHTML = `<strong>${LABELS[hit].replace('\n', '')}</strong><br>${TOOLTIPS[hit]}`;
+                tooltip.classList.add('show');
+            } else if (hit < 0) {
+                this.hoveredNode = -1;
+                tooltip.classList.remove('show');
+            }
+            if (this.hoveredNode >= 0) {
+                tooltip.style.left = Math.min(e.clientX + 12, window.innerWidth - 220) + 'px';
+                tooltip.style.top = (e.clientY - 60) + 'px';
+            }
+        }
+    }
+
+    onPointerUp() {
+        this.dragTarget = -1;
+    }
+
+    reset() {
+        this.customPositions = null;
+        this.spinAngle = 0;
+        this.pulsePhase = 0;
+        this.explodePhase = 0;
+        this.exploding = false;
+    }
+}
+
+// Create diagrams
+const diagrams = [
+    new Diagram('diagram1', 0),
+    new Diagram('diagram2', 1),
+    new Diagram('diagram3', 2),
+];
+
+function toggleSpin(i) {
+    diagrams[i].spinning = !diagrams[i].spinning;
+    diagrams[i].customPositions = null;
+    updateButtons(i);
+}
+
+function togglePulse(i) {
+    diagrams[i].pulsing = !diagrams[i].pulsing;
+    updateButtons(i);
+}
+
+function explodeDiagram(i) {
+    diagrams[i].exploding = true;
+    diagrams[i].explodePhase = 0;
+    diagrams[i].customPositions = null;
+}
+
+function resetDiagram(i) {
+    diagrams[i].reset();
+    updateButtons(i);
+}
+
+function updateButtons(i) {
+    const wrapper = diagrams[i].canvas.closest('.diagram-wrapper');
+    const buttons = wrapper.querySelectorAll('button');
+    buttons.forEach(b => {
+        const text = b.textContent;
+        if (text === 'Roter') b.classList.toggle('active', diagrams[i].spinning);
+        if (text === 'Puls') b.classList.toggle('active', diagrams[i].pulsing);
+    });
+}
+
+// Animation loop
+function animate() {
+    diagrams.forEach(d => {
+        d.update();
+        d.draw();
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
 </body>
 </html>
